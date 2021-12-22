@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { login } from '../../actions/session_actions';
+import { Button, Form } from 'semantic-ui-react';
+import '../../App.css';
 
 class Login extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class Login extends React.Component {
             password: this.state.password
         };
 
-        this.props.login(user);
+        this.props.history.push('/event')
     }
 
     // Render the session errors if there are any
@@ -63,26 +63,28 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <input type="text"
-                            value={this.state.username}
-                            onChange={this.update('username')}
-                            placeholder="Username"
-                        />
-                        <br />
-                        <input type="password"
-                            value={this.state.password}
-                            onChange={this.update('password')}
-                            placeholder="Password"
-                        />
-                        <br />
-                        <input type="submit" value="Submit" />
-                        {this.renderErrors()}
-                    </div>
-                </form>
-            </div>
+            <Form onSubmit={this.handleSubmit} className="form_login">
+                <Form.Field>
+                    <label>Username</label>
+                    <input 
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.update('username')}
+                        placeholder="Username"
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Password</label>
+                    <input 
+                        type = "password"
+                        value={this.state.password}
+                        onChange={this.update('password')}
+                        placeholder="Password"
+                    />
+                </Form.Field>
+                <Button type='submit'>Submit</Button>
+                 {this.renderErrors()}
+            </Form>
         );
     }
 }

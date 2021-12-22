@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { signup } from '../../actions/session_actions';
+import { Button, Form } from 'semantic-ui-react';
+import '../../App.css';
 
 class Signup extends React.Component {
     constructor(props) {
@@ -17,14 +17,26 @@ class Signup extends React.Component {
         this.clearedErrors = false;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.signedIn === true) {
-            this.props.history.push('/login');
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.signedIn === true) {
+    //         this.props.history.push('/login');
+    //     }
+
+    //     this.setState({
+    //         errors: nextProps.errors
+    //     })
+    // }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.signedIn === true) {
+            this.props.history.push("/login");
         }
 
-        this.setState({
-            errors: nextProps.errors
-        })
+        if (prevProps.errors !== this.props.errors) {
+            this.setState({
+                errors: this.props.errors
+            });
+        }
     }
 
     update(field) {
@@ -41,7 +53,7 @@ class Signup extends React.Component {
             password2: this.state.password2
         };
 
-        this.props.signup(user, this.props.history);
+        this.props.signup(user, this.props.history.push("/login"));
     }
 
     renderErrors() {
@@ -58,33 +70,37 @@ class Signup extends React.Component {
 
     render() {
         return (
-            <div className="signup-form-container">
-                <form onSubmit={this.handleSubmit}>
-                    <div className="signup-form">
-                        <br />
-                        <input type="text"
-                            value={this.state.username}
-                            onChange={this.update('username')}
-                            placeholder="Username"
-                        />
-                        <br />
-                        <input type="password"
-                            value={this.state.password}
-                            onChange={this.update('password')}
-                            placeholder="Password"
-                        />
-                        <br />
-                        <input type="password"
-                            value={this.state.password2}
-                            onChange={this.update('password2')}
-                            placeholder="Confirm Password"
-                        />
-                        <br />
-                        <input type="submit" value="Submit" />
-                        {this.renderErrors()}
-                    </div>
-                </form>
-            </div>
+            <Form onSubmit={this.handleSubmit} className="form_signup">
+                <Form.Field>
+                    <label>Username</label>
+                    <input 
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.update('username')}
+                        placeholder="Username"
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Password</label>
+                    <input 
+                        type = "password"
+                        value={this.state.password}
+                        onChange={this.update('password')}
+                        placeholder="Password"
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Confirm Password</label>
+                    <input 
+                        type = "password"
+                        value={this.state.password2}
+                        onChange={this.update('password2')}
+                        placeholder="Confirm Password"
+                    />
+                </Form.Field>
+                <Button type='submit'>Submit</Button>
+                 {this.renderErrors()}
+            </Form>
         );
     }
 }
@@ -104,3 +120,4 @@ class Signup extends React.Component {
 
 // export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signup));
 export default withRouter(Signup);
+
