@@ -9,13 +9,13 @@ export const setAuthToken = token => {
 };
 
 const authFrontend = axios.create(
-    {baseURL: 'http://localhost:4000/api/user'}
+    {baseURL: 'http://localhost:4000/api/user/'}
 )
 
 export const signup = (userData) => {
-    return authFrontend.post('/signup', userData);
+    return authFrontend.post('signup', userData);
 };
 
 export const login = (userData) => {
-    return authFrontend.post('/login', userData);
+    return authFrontend.post('login', userData);
 };
