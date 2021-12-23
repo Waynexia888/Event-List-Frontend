@@ -1,48 +1,41 @@
-import React from "react";
+import React from 'react';
+import EventForm from './EventForm';
+import { connect } from 'react-redux';
 import { Button, Table, Input } from 'semantic-ui-react';
-import '../../App.css';
 
-class Event extends React.Component {
+import { receiveEvents, receiveEvent } from '../../actions/event_actions'
+import { allEvents } from '../../reducers/selectors';
 
-  render() {
-    return(
-      <div className = "table-container">
-        <Table fixed>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell colSpan='5'>
-                <Button primary>Add Event</Button>
-              </Table.HeaderCell>
-            </Table.Row>
-            <Table.Row>
-              <Table.HeaderCell>From</Table.HeaderCell>
-              <Table.HeaderCell>To</Table.HeaderCell>
-              <Table.HeaderCell>Content</Table.HeaderCell>
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Action</Table.HeaderCell>
-            </Table.Row>
-            <Table.Row>
-              <Table.HeaderCell>
-                <Input type = "datetime-local" />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <Input type = "datetime-local" />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <Input type = "text" />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                < Input type = "checkbox" />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <Button primary>Save</Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-    </Table>
-    </div>
-    )
-  }
+class EventList extends React.Component {
+    render() {
+        const { events, receiveEvent } = this.props;
+        const eventItems = events.map((event) => (
+            <div>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell>John</Table.Cell>
+                        <Table.Cell>Approved</Table.Cell>
+                        <Table.Cell>None</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+            </div>
+        ))
+        return(
+            <div>
+                <EventForm receiveEvent={receiveEvent} />
+                <ul>{eventItems}</ul>
+            </div>
+        )
+    }
 }
 
-export default Event;
+const mapStateToProps = (state) => ({
+    events: allEvents(state),
+    state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    receiveEvent: (event) => dispatch(receiveEvent(event))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventList);

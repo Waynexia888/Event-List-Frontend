@@ -45,7 +45,7 @@ class Login extends React.Component {
             password: this.state.password
         };
 
-        this.props.history.push('/event')
+        this.props.login(user, this.props.history.push("/event"));
         // this.props.login(user)
     }
 

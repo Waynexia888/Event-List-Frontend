@@ -7,7 +7,8 @@ const initialState = {
     user: {}
 };
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
+    Object.freeze(state);
     switch (action.type) {
         case RECEIVE_USER_LOGOUT:
             return {
